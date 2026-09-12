@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar for clean mobile toolbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* PDF editable document area */
+.pdf-page, .pdf-sheet {
+  background-color: #ffffff;
+  color: #111827;
+  outline: none;
+  word-break: break-word;
+  transition: padding 0.15s ease, max-width 0.15s ease;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.pdf-page:focus, .pdf-sheet:focus {
+  outline: none;
+}
+
+.pdf-sheet h1, .pdf-page h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #0f172a;
+}
+
+.pdf-sheet h2, .pdf-page h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.pdf-sheet h3, .pdf-page h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  color: #334155;
+}
+
+.pdf-sheet p, .pdf-page p {
+  margin-bottom: 10px;
+}
+
+.pdf-sheet ul, .pdf-sheet ol, .pdf-page ul, .pdf-page ol {
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.pdf-sheet ul, .pdf-page ul {
+  list-style-type: disc;
+}
+
+.pdf-sheet ol, .pdf-page ol {
+  list-style-type: decimal;
+}
+
+.pdf-sheet blockquote, .pdf-page blockquote {
+  border-left: 3px solid #6366f1;
+  padding-left: 10px;
+  color: #4b5563;
+  margin: 10px 0;
+  font-style: italic;
+}
+
+/* Multi-page break rules for PDF generation */
+.html2pdf__page-break, .pdf-page-break {
+  page-break-after: always !important;
+  break-after: page !important;
+  display: block;
+  clear: both;
+}
+
+/* Embedded image styling */
+.doc-image-wrapper {
+  position: relative;
+  display: inline-block;
+  margin: 10px 0;
+  max-width: 100%;
+  user-select: none;
+}
+
+.doc-image-wrapper img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+}
+
+.doc-image-wrapper .delete-img-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(239, 68, 68, 0.92);
+  color: #ffffff;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.doc-image-wrapper .delete-img-btn:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+@keyframes progressPulse {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+

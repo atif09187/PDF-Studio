@@ -1,0 +1,6 @@
+{
+  "name": "Mobile PDF Studio",
+  "description": "Mobile-friendly document editor and PDF generator with live preview, formatting tools, page styling, and PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

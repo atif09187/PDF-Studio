@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "Mobile PDF Studio",
+  "short_name": "PDF Studio",
+  "description": "Mobile-friendly document editor and PDF generator by Ch Atif Gondal",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020617",
+  "theme_color": "#1e293b",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
