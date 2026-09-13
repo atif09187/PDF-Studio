@@ -240,14 +240,14 @@ echo "=== 10. ADDING CLASSES.DEX TO UNALIGNED APK ==="
 echo "=== 11. ZIPALIGNING APK ==="
 zipalign -v -p 4 "$ANDROID_DIR/build/unaligned.apk" "$ANDROID_DIR/build/aligned.apk"
 
-echo "=== 12. GENERATING RELEASE KEYSTORE IF NOT EXISTS ==="
+echo "=== 12. GENERATING RELEASE KEYSTORE IF NOT EXISTS (LIFETIME UNLIMITED VALIDITY) ==="
 KEYSTORE="release/release.keystore"
 if [ ! -f "$KEYSTORE" ]; then
   keytool -genkeypair -v -keystore "$KEYSTORE" \
     -alias pdfstudio \
     -keyalg RSA \
     -keysize 2048 \
-    -validity 10000 \
+    -validity 36500 \
     -storepass pdfstudio2026 \
     -keypass pdfstudio2026 \
     -dname "CN=Ch Atif Gondal, OU=PDF Studio, O=Ch Atif Gondal, L=Lahore, ST=Punjab, C=PK"
