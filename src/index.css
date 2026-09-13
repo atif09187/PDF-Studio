@@ -13,6 +13,8 @@ html, body, #root {
   overflow: hidden;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-tap-highlight-color: transparent;
+  direction: ltr;
+  text-align: left;
 }
 
 /* Hide scrollbar for clean mobile toolbar */
@@ -33,10 +35,36 @@ html, body, #root {
   transition: padding 0.15s ease, max-width 0.15s ease;
   font-size: 15px;
   line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
 }
 
 .pdf-page:focus, .pdf-sheet:focus {
   outline: none;
+}
+
+/* Individual paragraphs, headings, list items inside editable sheet */
+.pdf-sheet p, .pdf-page p,
+.pdf-sheet h1, .pdf-page h1,
+.pdf-sheet h2, .pdf-page h2,
+.pdf-sheet h3, .pdf-page h3,
+.pdf-sheet div, .pdf-page div,
+.pdf-sheet li, .pdf-page li,
+.pdf-sheet blockquote, .pdf-page blockquote {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+
+/* Explicit LTR and RTL overrides */
+.pdf-sheet [dir="ltr"], .pdf-page [dir="ltr"] {
+  direction: ltr !important;
+  text-align: left;
+}
+
+.pdf-sheet [dir="rtl"], .pdf-page [dir="rtl"] {
+  direction: rtl !important;
+  text-align: right;
 }
 
 .pdf-sheet h1, .pdf-page h1 {

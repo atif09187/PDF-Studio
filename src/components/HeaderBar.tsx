@@ -27,6 +27,8 @@ export const HeaderBar: React.FC<HeaderBarProps> = ({
   return (
     <header
       id="app-header"
+      dir="ltr"
+      style={{ direction: 'ltr' }}
       className="h-14 flex items-center justify-between px-2.5 sm:px-4 bg-slate-900 border-b border-slate-800 shrink-0 z-20 select-none shadow-sm gap-2"
     >
       {/* Left: Back button & Project Name */}

@@ -36,10 +36,12 @@ export const ControlsDrawer: React.FC<ControlsDrawerProps> = ({
   const currentMarginLabel = MARGIN_OPTIONS.find((m) => m.value === marginSize)?.label || 'Margin';
 
   return (
-    <div className="shrink-0 z-30 bg-slate-900 border-b border-slate-800 select-none shadow-xs">
+    <div className="shrink-0 z-30 bg-slate-900 border-b border-slate-800 select-none shadow-xs" dir="ltr" style={{ direction: 'ltr' }}>
       {/* Horizontal Button Shelf */}
       <div
         id="doc-controls-bar"
+        dir="ltr"
+        style={{ direction: 'ltr' }}
         className="flex items-center gap-1.5 px-3 py-2 overflow-x-auto no-scrollbar text-xs"
       >
         {/* Font Button */}

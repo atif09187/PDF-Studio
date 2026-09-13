@@ -33,11 +33,13 @@ import { HeaderBar } from './components/HeaderBar';
 import { Dashboard } from './components/Dashboard';
 import { ControlsDrawer } from './components/ControlsDrawer';
 import { FormattingToolbar } from './components/FormattingToolbar';
+import { PageSheet } from './components/PageSheet';
 import { DeletePageModal } from './components/DeletePageModal';
 import { ClearPageModal } from './components/ClearPageModal';
 import { LifetimeModal } from './components/LifetimeModal';
 import { FirstLaunchPermissionModal } from './components/FirstLaunchPermissionModal';
 import { ExportAnimationModal } from './components/ExportAnimationModal';
+import { syncBlockDirections, updateActiveBlockDirection } from './utils/bidi';
 
 export default function App() {
   // Splash Screen State
@@ -218,11 +220,43 @@ export default function App() {
     return { wordCount: totalWords, charCount: totalChars };
   }, [pages]);
 
+  // Handle content updates from editor sheets
+  const handlePageContentChange = useCallback((pageIndex: number, newHtml: string) => {
+    setPages((prev) => {
+      const updated = [...prev];
+      if (updated[pageIndex]) {
+        updated[pageIndex] = {
+          ...updated[pageIndex],
+          content: newHtml,
+        };
+      }
+      triggerAutoSave(updated);
+      return updated;
+    });
+  }, [triggerAutoSave]);
+
+  const handleRemoveImage = (wrapper: HTMLElement) => {
+    wrapper.remove();
+    const activeEl = document.getElementById(`page-content-${activePageIndex}`);
+    if (activeEl) {
+      handlePageContentChange(activePageIndex, activeEl.innerHTML);
+    }
+    showNotification('Image removed');
+  };
+
   // Rich Text Formatting Command
   const formatDoc = (command: string, value: string | null = null) => {
+    const activeEl = document.getElementById(`page-content-${activePageIndex}`);
+    if (activeEl) {
+      if (document.activeElement !== activeEl && !activeEl.contains(document.activeElement)) {
+        activeEl.focus();
+      }
+    }
     document.execCommand(command, false, value ?? undefined);
-    syncDomToState();
-    triggerAutoSave(pages);
+    if (activeEl) {
+      updateActiveBlockDirection(activeEl);
+      handlePageContentChange(activePageIndex, activeEl.innerHTML);
+    }
   };
 
   // Helper to apply preset document templates
@@ -238,6 +272,11 @@ export default function App() {
         triggerAutoSave(updated);
         return updated;
       });
+      const activeEl = document.getElementById(`page-content-${activePageIndex}`);
+      if (activeEl) {
+        activeEl.innerHTML = templateHtml;
+        syncBlockDirections(activeEl);
+      }
       showNotification('Template applied');
     }
     setActiveDrawer(null);
@@ -249,7 +288,7 @@ export default function App() {
     const newPageId = `page-${Date.now()}`;
     const newBlankPage: PageItem = {
       id: newPageId,
-      content: '<p><br/></p>',
+      content: '<p dir="ltr"><br/></p>',
     };
 
     setPages((prev) => {
@@ -334,11 +373,12 @@ export default function App() {
   };
 
   const handleConfirmClearPage = () => {
+    const cleanHtml = '<p dir="ltr"><br/></p>';
     setPages((prev) => {
       const nextPages = [...prev];
       nextPages[activePageIndex] = {
         ...nextPages[activePageIndex],
-        content: '<p><br/></p>',
+        content: cleanHtml,
       };
       triggerAutoSave(nextPages);
       return nextPages;
@@ -346,7 +386,8 @@ export default function App() {
 
     const activeEl = document.getElementById(`page-content-${activePageIndex}`);
     if (activeEl) {
-      activeEl.innerHTML = '<p><br/></p>';
+      activeEl.innerHTML = cleanHtml;
+      activeEl.focus();
     }
 
     setShowClearConfirmModal(false);
@@ -502,8 +543,7 @@ export default function App() {
         activeEditor.appendChild(wrapper);
       }
 
-      syncDomToState();
-      triggerAutoSave(pages);
+      handlePageContentChange(activePageIndex, activeEditor.innerHTML);
       showNotification('Image inserted');
       if (fileInputRef.current) fileInputRef.current.value = '';
     };
@@ -570,7 +610,11 @@ export default function App() {
         tempPage.style.top = '0';
         tempPage.style.left = '-10000px';
         tempPage.style.zIndex = '-9999';
+        tempPage.style.direction = 'ltr';
+        tempPage.setAttribute('dir', 'ltr');
+        tempPage.className = 'pdf-page pdf-sheet';
         tempPage.innerHTML = pageHtml;
+        syncBlockDirections(tempPage);
 
         document.body.appendChild(tempPage);
 
@@ -673,7 +717,11 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] w-full max-w-[640px] mx-auto bg-slate-950 text-slate-100 shadow-2xl relative overflow-hidden select-none border-x border-slate-900">
+    <div
+      dir="ltr"
+      style={{ direction: 'ltr' }}
+      className="flex flex-col h-[100dvh] w-full max-w-[640px] mx-auto bg-slate-950 text-slate-100 shadow-2xl relative overflow-hidden select-none border-x border-slate-900"
+    >
       {/* ============================================================ */}
       {/* 1. SPLASH SCREEN (Requirement 1: NO Skip Button)              */}
       {/* ============================================================ */}
@@ -805,8 +853,9 @@ export default function App() {
           {/* ============================================================ */}
           <main
             id="editor-canvas"
+            dir="ltr"
             className="flex-1 overflow-y-auto px-4 py-5 flex flex-col items-center gap-6 select-text scroll-smooth"
-            style={{ backgroundColor: '#090d16' }}
+            style={{ backgroundColor: '#090d16', direction: 'ltr' }}
           >
             {pages.map((page, index) => {
               const isFirst = index === 0;
@@ -883,58 +932,16 @@ export default function App() {
                   </div>
 
                   {/* Physical White Paper Sheet */}
-                  <div
+                  <PageSheet
                     id={`page-content-${index}`}
-                    contentEditable
-                    onInput={() => {
-                      syncDomToState();
-                      triggerAutoSave(pages);
-                    }}
-                    onMouseDown={(e) => {
-                      const target = e.target as HTMLElement;
-                      const deleteBtn = target.closest('[data-action="delete-image"], .delete-img-btn');
-                      if (deleteBtn) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const wrapper = deleteBtn.closest('.doc-image-wrapper');
-                        if (wrapper) {
-                          wrapper.remove();
-                          syncDomToState();
-                          triggerAutoSave(pages);
-                          showNotification('Image removed');
-                        }
-                      }
-                    }}
-                    onClick={(e) => {
-                      const target = e.target as HTMLElement;
-                      const deleteBtn = target.closest('[data-action="delete-image"], .delete-img-btn');
-                      if (deleteBtn) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const wrapper = deleteBtn.closest('.doc-image-wrapper');
-                        if (wrapper) {
-                          wrapper.remove();
-                          syncDomToState();
-                          triggerAutoSave(pages);
-                          showNotification('Image removed');
-                        }
-                      }
-                    }}
-                    suppressContentEditableWarning
-                    spellCheck={false}
-                    dangerouslySetInnerHTML={{ __html: page.content }}
-                    style={{
-                      padding: marginSize,
-                      fontFamily: fontFamily,
-                      minHeight: '820px',
-                      backgroundColor: '#ffffff',
-                      color: '#0f172a',
-                    }}
-                    className={`w-full rounded-sm shadow-xl focus:outline-none transition-shadow ${
-                      activePageIndex === index
-                        ? 'ring-2 ring-indigo-500/80 shadow-indigo-500/10'
-                        : 'border border-slate-800'
-                    }`}
+                    pageIndex={index}
+                    initialContent={page.content}
+                    isActive={activePageIndex === index}
+                    marginSize={marginSize}
+                    fontFamily={fontFamily}
+                    onActivate={(idx) => setActivePageIndex(idx)}
+                    onContentChange={handlePageContentChange}
+                    onRemoveImage={handleRemoveImage}
                   />
                 </div>
               );

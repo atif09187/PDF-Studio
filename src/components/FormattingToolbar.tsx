@@ -40,14 +40,17 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
   return (
     <footer
       id="toolbar-footer"
+      dir="ltr"
+      style={{ direction: 'ltr', textAlign: 'left' }}
       className="bg-slate-900 border-t border-slate-800 p-2.5 flex flex-col gap-2 shrink-0 select-none z-20 shadow-lg"
     >
       {/* Row 1: Text Styling & Alignment (8 Perfectly Aligned Symmetrical Buttons) */}
-      <div className="grid grid-cols-8 gap-1.5 w-full">
+      <div className="grid grid-cols-8 gap-1.5 w-full" dir="ltr" style={{ direction: 'ltr' }}>
         {/* Bold */}
         <button
           id="btn-bold"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('bold')}
           title="Bold (Ctrl+B)"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -59,6 +62,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-italic"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('italic')}
           title="Italic (Ctrl+I)"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -70,6 +74,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-underline"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('underline')}
           title="Underline (Ctrl+U)"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -81,6 +86,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-strike"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('strikeThrough')}
           title="Strikethrough"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -92,6 +98,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-align-left"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('justifyLeft')}
           title="Align Left"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -103,6 +110,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-align-center"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('justifyCenter')}
           title="Align Center"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -114,6 +122,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-align-right"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('justifyRight')}
           title="Align Right"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -125,6 +134,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-align-justify"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('justifyFull')}
           title="Justify Full"
           className="h-9 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -134,11 +144,12 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
       </div>
 
       {/* Row 2: Media, Lists, Dividers & Actions */}
-      <div className="flex gap-1.5 items-center w-full">
+      <div className="flex gap-1.5 items-center w-full" dir="ltr" style={{ direction: 'ltr' }}>
         {/* Insert Image */}
         <button
           id="btn-insert-image"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={onAddImage}
           title="Insert Image from Device Gallery"
           className="flex-2 min-w-0 h-8.5 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center gap-1.5 text-xs font-semibold cursor-pointer transition-all shadow-xs"
@@ -151,6 +162,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-bullet-list"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('insertUnorderedList')}
           title="Bullet List"
           className="flex-1 min-w-0 h-8.5 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -162,6 +174,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-numbered-list"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('insertOrderedList')}
           title="Numbered List"
           className="flex-1 min-w-0 h-8.5 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -173,6 +186,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-insert-divider"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('insertHorizontalRule')}
           title="Insert Horizontal Divider Line"
           className="flex-1 min-w-0 h-8.5 bg-slate-850 hover:bg-slate-800 active:bg-indigo-600 active:scale-95 border border-slate-750 hover:border-slate-700 text-slate-200 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-xs"
@@ -184,6 +198,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-reset-format"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={() => onFormat('removeFormat')}
           title="Reset Text Formatting"
           className="flex-1.2 min-w-0 h-8.5 bg-slate-850 hover:bg-slate-800 active:bg-slate-750 border border-slate-750 hover:border-slate-700 text-slate-300 rounded-lg flex items-center justify-center gap-1 text-[11px] font-medium transition-all cursor-pointer shadow-xs"
@@ -196,6 +211,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         <button
           id="btn-clear-page"
           type="button"
+          onMouseDown={(e) => e.preventDefault()}
           onClick={onClearPage}
           title="Clear content on this page"
           className="flex-1.2 min-w-0 h-8.5 bg-amber-950/40 hover:bg-amber-900/50 active:bg-amber-850 border border-amber-800/60 text-amber-300 rounded-lg flex items-center justify-center gap-1 text-[11px] font-semibold transition-all cursor-pointer shadow-xs"
@@ -206,7 +222,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
       </div>
 
       {/* Row 3: Live Document Stats */}
-      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/80 px-0.5">
+      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/80 px-0.5" dir="ltr" style={{ direction: 'ltr' }}>
         <div className="flex items-center gap-2 font-medium text-slate-300">
           <span>
             Page {activePageIndex + 1} of {totalPages}
