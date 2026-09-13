@@ -14,14 +14,13 @@ import {
   Minus,
   RotateCcw,
   Trash2,
-  Infinity as InfinityIcon,
 } from 'lucide-react';
 
 interface FormattingToolbarProps {
   onFormat: (command: string, value?: string | null) => void;
   onAddImage: () => void;
   onClearPage: () => void;
-  onOpenLifetimeModal: () => void;
+  onOpenLifetimeModal?: () => void;
   activePageIndex: number;
   totalPages: number;
   wordCount: number;
@@ -32,7 +31,7 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
   onFormat,
   onAddImage,
   onClearPage,
-  onOpenLifetimeModal,
+  onOpenLifetimeModal: _onOpenLifetimeModal,
   activePageIndex,
   totalPages,
   wordCount,
@@ -206,10 +205,10 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         </button>
       </div>
 
-      {/* Row 3: Live Document Stats & Lifetime Unlimited Badge */}
-      <div className="flex items-center justify-between text-[10px] text-slate-400 pt-0.5 border-t border-slate-800/80 px-0.5">
-        <div className="flex items-center gap-2 font-medium">
-          <span className="text-slate-300">
+      {/* Row 3: Live Document Stats */}
+      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-slate-800/80 px-0.5">
+        <div className="flex items-center gap-2 font-medium text-slate-300">
+          <span>
             Page {activePageIndex + 1} of {totalPages}
           </span>
           <span className="text-slate-600">&bull;</span>
@@ -219,17 +218,8 @@ export const FormattingToolbar: React.FC<FormattingToolbarProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onOpenLifetimeModal}
-            className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer transition-colors"
-          >
-            <InfinityIcon className="w-3 h-3 stroke-[2.5]" />
-            <span>100-Year Lifetime</span>
-          </button>
-          <span className="text-slate-600 hidden sm:inline">&bull;</span>
-          <span className="text-slate-500 hidden sm:inline">
-            By <strong className="text-slate-400 font-medium">Ch Atif Gondal</strong>
+          <span className="text-slate-400 hidden sm:inline">
+            By <strong className="text-slate-300 font-medium">Ch Atif Gondal</strong>
           </span>
         </div>
       </div>

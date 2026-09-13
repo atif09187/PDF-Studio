@@ -33,3 +33,27 @@ export interface TemplateOption {
 }
 
 export type ActiveDrawer = 'font' | 'size' | 'format' | 'margin' | 'template' | null;
+
+export type SaveStatus = 'saved' | 'saving';
+
+export interface ProjectItem {
+  id: string;
+  name: string;
+  createdAt: number;
+  updatedAt: number;
+  pages: PageItem[];
+  pageSize: PageSize;
+  marginSize: MarginSize;
+  activeFont: string;
+  activeFontSize: string;
+  isDraft?: boolean;
+}
+
+export interface ExportItem {
+  id: string;
+  projectId: string;
+  fileName: string;
+  fileSizeBytes: number;
+  fileSizeFormatted: string;
+  exportedAt: number;
+}
